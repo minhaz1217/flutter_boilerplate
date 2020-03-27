@@ -5,16 +5,19 @@ import 'Routes.dart';
 
 void main() => runApp(MyApp());
 
+var pages = [
+  FirstPage(),
+];
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Prodigious UI',
-      initialRoute: '/',
-      routes: Routes.routes
-
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Prodigious UI',
+        initialRoute: '/',
+        routes: Routes.routes);
   }
 }
 
@@ -27,47 +30,32 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  _listItem(BuildContext context, int index) {
+    return ListTile(
+      title: Text(
+        pages[index].name,
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => pages[index]));
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-            FlatButton(
-              onPressed: (){
-                Navigator.pushNamed(context, FirstPage.name);
-              },
-              child: Text("1st Page"),
-              color: Colors.blue,
-            )
-
-          ],
+        title: Title(
+          child: Text("flutter_boilerplate"),
+          color: Colors.amber,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), 
+      body: ListView.builder(
+        itemCount: pages.length,
+        itemBuilder: (context, index) => _listItem(context, index),
+      ),
     );
   }
 }
